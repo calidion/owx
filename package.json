@@ -1,0 +1,29 @@
+{
+  "name": "owx",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calidion/owx.git"
+  },
+  "author": "calidion",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calidion/owx/issues"
+  },
+  "homepage": "https://github.com/calidion/owx#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-oauth-server": "^2.0.0-b1",
+    "grpc": "^1.2.0",
+    "oauth-server": "^0.2.0",
+    "vig": "^0.8.0-alpha-1"
+  },
+  "devDependencies": {
+    "typescript": "^2.2.2"
+  }
+}
