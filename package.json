@@ -24,6 +24,7 @@
     "vig": "^0.8.0-alpha-1"
   },
   "devDependencies": {
+    "@types/node": "^7.0.12",
     "typescript": "^2.2.2"
   }
 }
