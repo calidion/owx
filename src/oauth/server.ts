@@ -3,7 +3,8 @@ import * as OAuthServer from 'express-oauth-server';
 
 export = function(app, model) {
   let oauth = new OAuthServer({
-    model: model, // See https://github.com/thomseddon/node-oauth2-server for specification
+    // See https://github.com/thomseddon/node-oauth2-server for specification
+    model: model, 
     grants: ['password'],
     debug: true
   });
