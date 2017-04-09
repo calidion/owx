@@ -21,10 +21,23 @@
     "express-oauth-server": "^2.0.0-b1",
     "grpc": "^1.2.0",
     "oauth-server": "^0.2.0",
+    "sails-mongo": "^0.12.2",
+    "sails-mysql": "^0.11.5",
     "vig": "^0.8.0-alpha-1"
   },
   "devDependencies": {
     "@types/node": "^7.0.12",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
+    "gulp-exclude-gitignore": "^1.1.1",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-mocha": "^4.3.0",
+    "gulp-nsp": "^2.4.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-tslint": "^7.1.0",
+    "gulp-typescript": "^3.1.6",
+    "tslint": "^5.0.0",
     "typescript": "^2.2.2"
   }
 }

@@ -1,34 +1,22 @@
-export = function (models) {
-  var Token = models.Token;
-  var Client = models.Client;
-  var User = models.User;
+import * as express from 'express';
+import * as path from 'path';
+import { VModel } from 'vig';
+import database = require('../config/database');
+import modelApi = require('./api');
+import server = require('./server');
 
-  return {
-    getAccessToken: function (bearerToken) {
-      return Token.findOne({ accessToken: bearerToken });
-    },
-    getClient: function (clientId, clientSecret) {
-      return Client.findOne({ id: clientId, secret: clientSecret });
-    },
-    getUser: function (username, password) {
-      return User.findOne({ username: username, password: password });
-    },
-    saveToken: function (token, client, user) {
-      var accessToken = new Token({
-        accessToken: token.accessToken,
-        accessTokenExpiresOn: token.accessTokenExpiresOn,
-        client: client.id,
-        refreshToken: token.refreshToken,
-        refreshTokenExpiresOn: token.refreshTokenExpiresOn,
-        user: user.id
-      });
-      return accessToken.save();
-    },
-    validateScope: function () {
+let modelPath = path.resolve(__dirname, '../component');
+let model = new VModel(modelPath);
+let config = database.adapters[database.default][database.env];
 
-    },
-    getRefreshToken: function (refreshToken) {
-      return Token.findOne({ refreshToken: refreshToken });
+export = function (app, next) {
+  model.init(config, {
+    connection: 'default'
+  }, function (error, models) {
+    if (error) {
+      return next(true, new Error(error + models));
     }
-  };
+    server(app, modelApi(models));
+    next(false, models);
+  });
 }
