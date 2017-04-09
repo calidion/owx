@@ -9,6 +9,7 @@ var plumber = require('gulp-plumber');
 var coveralls = require('gulp-coveralls');
 var tslint = require("gulp-tslint");
 var del = require("del");
+require('ts-node/register');
 
 
 var ts = require("gulp-typescript");
@@ -52,22 +53,36 @@ gulp.task('pre-test', ['testc'], function () {
         .pipe(istanbul.hookRequire());
 });
 
-gulp.task("test", ['pre-test'], function () {
-    var mochaErr;
-    gulp.src(['test/**/*.test.js', 'test/**/*.js'])
-        .pipe(plumber())
-        .pipe(mocha({
-            reporter: 'spec'
-        }))
-        .on('error', function (err) {
-            mochaErr = err;
-            throw err;
-        })
-        .pipe(istanbul.writeReports())
-        .on('end', function () {
-            cb(mochaErr);
-        });
+gulp.task('test', function() {
+    //find test code - note use of 'base'
+    return gulp.src('./test/**/*.ts', { base: '.' })
+    /*transpile*/
+    .pipe(ts(tsProject))
+    /*flush to disk*/
+    .pipe(gulp.dest('.'))
+    /*execute tests*/
+    .pipe(mocha({
+        reporter: 'progress'
+    }));
 });
+
+// gulp.task("test", ['pre-test'], function () {
+//     var mochaErr;
+//     gulp.src(['test/**/*.test.ts', 'test/**/*.ts'])
+//         .pipe(plumber())
+//         .pipe(mocha({
+//             compiler: 'ts:ts-node/register',
+//             reporter: 'spec'
+//         }))
+//         .on('error', function (err) {
+//             mochaErr = err;
+//             throw err;
+//         })
+//         .pipe(istanbul.writeReports())
+//         .on('end', function () {
+//             cb(mochaErr);
+//         });
+// });
 
 gulp.task("tslint", ['clean'], () =>
     gulp.src(['src/**/*.ts', 'test/**/*.test.ts'])
