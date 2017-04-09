@@ -22,7 +22,6 @@ export = function (models) {
         refreshTokenExpiresOn: token.refreshTokenExpiresOn,
         user: user.id
       });
-
       return accessToken.save();
     },
     validateScope: function () {
