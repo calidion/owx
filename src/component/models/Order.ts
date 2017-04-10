@@ -19,11 +19,11 @@ export = {
       defaultsTo: false
     },
     createdAt: {
-      columnName: 'created_at'
+      columnName: 'created_at',
       type: 'datetime'
     },
     updatedAt: {
-      columnName: 'updated_at'
+      columnName: 'updated_at',
       type: 'datetime'
     }
   }

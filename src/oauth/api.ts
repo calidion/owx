@@ -15,7 +15,7 @@ export = function (models) {
     },
     saveAuthorizationCode: function() {
       
-    }
+    },
     getUser: function (username, password) {
       return User.findOne({ username: username, password: password });
     },
