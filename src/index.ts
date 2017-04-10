@@ -9,6 +9,6 @@ oauthModel(router, function (error, models) {
   weixin(app, models);
   app.use('/oauth', router);
   app.listen(site.port, function () {
-    console.log('weixin server started');
+    console.log('weixin server started at ' + site.port);
   });
 });
