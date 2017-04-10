@@ -25,7 +25,7 @@ describe('OWX', () => {
   it('should request', (done) => {
     weixin(gApp, gModels);
     request(gApp)
-    .get('/weixin/callback')
+    .get('/weixin/pay/callback')
     .expect(200)
     .end(function(err, res) {
       console.log(err, res.text);
