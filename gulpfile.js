@@ -63,6 +63,7 @@ gulp.task("test", ['pre-test'], function (cb) {
       throw err;
     })
     .pipe(istanbul.writeReports())
+    // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
     .on('end', function () {
       cb(mochaErr);
     });
@@ -79,16 +80,6 @@ gulp.task("tslint", ['clean'], () =>
 gulp.task('nsp', function (cb) {
   nsp({ package: path.resolve('package.json') }, cb);
 });
-
-gulp.task('pre-test', function () {
-  return gulp.src('dest/src/**/*.js')
-    .pipe(excludeGitignore())
-    .pipe(istanbul({
-      includeUntested: true
-    }))
-    .pipe(istanbul.hookRequire());
-});
-
 gulp.task('watch', function () {
   gulp.watch(['src/**/*.ts', 'test/**/*.ts'], ['test']);
 });
@@ -97,7 +88,6 @@ gulp.task('coveralls', function () {
   if (!process.env.CI) {
     return;
   }
-
   return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
     .pipe(coveralls());
 });

@@ -10,6 +10,12 @@ export = function (models) {
     getClient: function (clientId, clientSecret) {
       return Client.findOne({ id: clientId, secret: clientSecret });
     },
+    generateAccessToken: function() {
+
+    },
+    saveAuthorizationCode: function() {
+      
+    }
     getUser: function (username, password) {
       return User.findOne({ username: username, password: password });
     },
@@ -24,8 +30,9 @@ export = function (models) {
       });
       return accessToken.save();
     },
-    validateScope: function () {
-
+    validateScope: function (accessToken, scope) {
+      console.log(arguments);
+      return;
     },
     getRefreshToken: function (refreshToken) {
       return Token.findOne({ refreshToken: refreshToken });
