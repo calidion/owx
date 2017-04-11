@@ -29,25 +29,19 @@ export = function (app, models) {
     });
   });
 
-  router.use('/pay/qrcode/2', function (req, res) {
-    console.log('callback');
-    console.log(req.params);
-    console.log(req.query);
-    console.log(req.body);
-
-    var data = {
-      body: 'sdofsofd',
-      out_trade_no: '8283232323',
-      total_fee: 1110,
-      spbill_create_ip: '127.0.0.1',
-      notify_url: 'https://helloworld.com',
-      trade_type: 'JSSDK'
-    };
+  router.use('/pay/qrcode/2', async function (req, res) {
     var order = {
       title: '红包充值',
       no: new Date().getTime(),
       price: 1
     };
+    var data = {};
+    pay.qrPay(req, data, 'NATIVE', order);
+    data['notify_url'] = 'http://pay.t1bao.com/weixin/pay/callback';
+    // data['spbill_create_ip'] = '115.183.164.187';
+    let uniData = await pay.uniPay(config, data);
+    var qrString = 'weixin://wxpay/bizpayurl?sr=' + uniData['code_url'];
+    res.end('ok');
   });
 
   router.use('/qrscan/callback', function (req, res) {

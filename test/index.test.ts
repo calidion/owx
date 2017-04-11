@@ -25,12 +25,25 @@ describe('OWX', () => {
   it('should request', (done) => {
     weixin(gApp, gModels);
     request(gApp)
-    .get('/weixin/pay/callback')
-    .expect(200)
-    .end(function(err, res) {
-      console.log(err, res.text);
-      done();
-    });
+      .get('/weixin/qrscan/callback')
+      .expect(200)
+      .end(function (err, res) {
+        console.log(err, res.text);
+        assert(!err);
+        assert(res.text === 'callback');
+        done();
+      });
+  });
+
+  it('should request', (done) => {
+    request(gApp)
+      .get('/weixin/pay/qrcode/2')
+      .expect(200)
+      .end(function (err, res) {
+        console.log(err, res.text);
+        
+        done();
+      });
   });
 
 });

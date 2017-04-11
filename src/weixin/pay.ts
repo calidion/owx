@@ -1,7 +1,9 @@
 import * as pay from 'node-weixin-pay';
+import * as randomstring from 'randomstring';
 
 export class WeiXinPay {
   config
+  api = pay
   constructor(config) {
     this.config = config;
   }
@@ -28,19 +30,35 @@ export class WeiXinPay {
     data.spbill_create_ip = ip;
   }
   prepareOrderInfo(data, order) {
-    data.body = order.title;
+    data.body = encodeURIComponent(order.title);
     data.out_trade_no = String(order.no);
-    data.total_fee = ((order.price - 0) * 100).toFixed(0);
+    data.total_fee = parseInt(((order.price - 0) * 100).toFixed(0));
   }
 
   prepareUserInfo(data, user) {
     data.openid = user.openid.openid;
   }
 
-  qrPay(data, type, order, user, req) {
-    this.preparePayType(data, type);
+  qrPay(req, data, type, order, user = null) {
     this.prepareClientInfo(data, req);
+    this.preparePayType(data, type);
     this.prepareOrderInfo(data, order);
-    this.prepareUserInfo(data, user);
+    if (user) {
+      this.prepareUserInfo(data, user);
+    }
+  }
+  uniPay(config, data) {
+    // let sign = pay.sign(config.merchant, data);
+    // data.sign = sign;
+    console.log(data);
+    return new Promise(function (resovle, reject) {
+      pay.api.order.unified(config, data, function (error, data) {
+        if (error) {
+          console.error(error, data);
+          return reject(error);
+        }
+        resovle(data);
+      });
+    });
   }
 }
