@@ -1,11 +1,15 @@
 import * as express from 'express';
-import * as pay from 'node-weixin-pay';
+// import * as pay from 'node-weixin-pay';
 import config = require('../config/weixin');
 import * as qrcode from 'qrcode'
 
+import { WeiXinPay } from './pay';
+
+var pay = new WeiXinPay(config);
+
 export = function (app, models) {
   let router = express.Router();
-  router.use('/pay/qrcode', function (req, res) {
+  router.use('/pay/qrcode/1', function (req, res) {
     console.log('callback');
     console.log(req.params);
     console.log(req.query);
@@ -24,7 +28,23 @@ export = function (app, models) {
       res.end("<!DOCTYPE html/><html><head><title>node-qrcode</title></head><body><img src='" + url + "'/></body></html>")
     });
   });
-  
+
+  router.use('/pay/qrcode/2', function (req, res) {
+    console.log('callback');
+    console.log(req.params);
+    console.log(req.query);
+    console.log(req.body);
+
+    var data = {
+      body: 'sdofsofd',
+      out_trade_no: '8283232323',
+      total_fee: 1110,
+      spbill_create_ip: '127.0.0.1',
+      notify_url: 'https://helloworld.com',
+      trade_type: 'JSSDK'
+    };
+  });
+
   router.use('/pay/callback', function (req, res) {
     console.log('callback');
     console.log(req.params);
