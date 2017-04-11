@@ -6,8 +6,8 @@ export class WeiXinPay {
     this.config = config;
   }
 
-  qrString(...arg) {
-    pay.qrcode.apply(pay, arg);
+  qrString(app, merchant, productId) {
+    return pay.qrcode(app, merchant, productId);
   }
 
   preparePublicPay(data) {

@@ -21,7 +21,7 @@ export = function (app, models) {
         quality: 0.3
       }
     };
-    var string = pay.qrcode(config.app, config.merchant, req.query.id || 'id');
+    var string = pay.qrString(config.app, config.merchant, req.query.id || 'id');
     console.log(string);
     qrcode.toDataURL(string, opts, function (err, url) {
       if (err) throw err;
@@ -43,9 +43,14 @@ export = function (app, models) {
       notify_url: 'https://helloworld.com',
       trade_type: 'JSSDK'
     };
+    var order = {
+      title: '红包充值',
+      no: new Date().getTime(),
+      price: 1
+    };
   });
 
-  router.use('/pay/callback', function (req, res) {
+  router.use('/qrscan/callback', function (req, res) {
     console.log('callback');
     console.log(req.params);
     console.log(req.query);
