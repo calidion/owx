@@ -43,7 +43,11 @@ export = function (app, models) {
       notify_url: 'https://helloworld.com',
       trade_type: 'JSSDK'
     };
-
+    var order = {
+      title: '红包充值',
+      no: new Date().getTime(),
+      price: 1
+    };
   });
 
   router.use('/qrscan/callback', function (req, res) {
