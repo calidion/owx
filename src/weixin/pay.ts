@@ -30,7 +30,7 @@ export class WeiXinPay {
     data.spbill_create_ip = ip;
   }
   prepareOrderInfo(data, order) {
-    data.body = encodeURIComponent(order.title);
+    data.body = order.title;
     data.out_trade_no = String(order.no);
     data.total_fee = parseInt(((order.price - 0) * 100).toFixed(0));
   }
@@ -48,9 +48,6 @@ export class WeiXinPay {
     }
   }
   uniPay(config, data) {
-    // let sign = pay.sign(config.merchant, data);
-    // data.sign = sign;
-    console.log(data);
     return new Promise(function (resovle, reject) {
       pay.api.order.unified(config, data, function (error, data) {
         if (error) {
@@ -59,6 +56,17 @@ export class WeiXinPay {
         }
         resovle(data);
       });
+    });
+  }
+  onNotify(config, req, res, next) {
+    return new Promise(function (resolve, reject) {
+      pay.callback.notify(config.app, config.merchant,
+        req, res, function (error, result, info) {
+          if (error) {
+            return reject(info);
+          }
+          resolve(result);
+        });
     });
   }
 }

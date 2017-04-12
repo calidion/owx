@@ -37,11 +37,16 @@ describe('OWX', () => {
 
   it('should request', (done) => {
     request(gApp)
-      .get('/weixin/pay/qrcode/2')
+      .post('/weixin/pay/qrcode/2')
+      .send({
+        title: '红包支付',
+        no: 'ABCD-' + new Date().getTime(),
+        price: 0.01
+      })
       .expect(200)
       .end(function (err, res) {
+        assert(!err);
         console.log(err, res.text);
-        
         done();
       });
   });
